@@ -53,3 +53,66 @@
         </div>
     </div>
 </div>
+<p class="data-header">Add a new car</p>
+<div class="data-container">
+    <form [formGroup]="carForm">
+        <div class="row form-group">
+            <div class="col-sm-4">
+                <label>Model</label>
+                <input  formControlName="model" type="text" class="form-control" placeholder="model">
+            </div>
+            <div class="col-sm-4">
+                <label>Type</label>
+                <input  formControlName="type" type="text" class="form-control" placeholder="Type">
+            </div>
+            <div class="col-sm-4">
+                <label>Plate</label>
+                <input  formControlName="plate" type="text" class="form-control" placeholder="Plate">
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-sm-4">
+                <label>Deliery date</label>
+                <input  formControlName="deliveryDate" type="text" class="form-control" placeholder="Deliery date">
+            </div>
+            <div class="col-sm-4">
+                <label>Deadline</label>
+                <input  formControlName="deadline" type="text" class="form-control" placeholder="Deadline">
+            </div>
+            <div class="col-sm-4">
+                <label>Color</label>
+                <input  formControlName="color" type="text" class="form-control" placeholder="Color">
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-sm-4">
+                <label>Power</label>
+                <input  formControlName="power" type="text" class="form-control" placeholder="Power">
+            </div>
+            <div class="col-sm-4">
+                <label>Cost</label>
+                <input  formControlName="cost" type="text" class="form-control" placeholder="Cost">
+            </div>
+            <div class="col-sm-4">
+                <label>Is car fullt damaged?</label>
+                <input  formControlName="isFullyDamaged" type="checkbox">
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-sm-4">
+                <label>Client First Name</label>
+                <input  formControlName="clientFirstName" type="text" class="form-control" placeholder="Client First Name">
+            </div>
+            <div class="col-sm-4">
+                <label>Client Last Name</label>
+                <input  formControlName="clientSurname" type="text" class="form-control" placeholder="Client Last Name">
+            </div>
+         
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-primary float-end">Add car</button>
+            </div>
+        </div>
+    </form>
+</div>

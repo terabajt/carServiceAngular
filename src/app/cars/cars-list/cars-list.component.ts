@@ -1,5 +1,6 @@
 import { ViewChild, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CarsService } from '../cars.service';
 import { Car } from '../models/car';
@@ -17,14 +18,32 @@ export class CarsListComponent implements OnInit, AfterViewInit {
   totalCost!: number;
   grossCost: number | undefined;
   cars: Car[] = [];
+  carForm : FormGroup | undefined;
 
   constructor(private carsService: CarsService,
-    private router: Router) {}
+    private router: Router,
+    private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     this.loadCars();
+    this.carForm = this.buildCarForm();
   }
 
+  buildCarForm () {
+    return this.formBuilder.group({
+      model: '',
+      type: '',
+      plate: '',
+      deliveryDate: '',
+      deadline: '',
+      color: '',
+      power: '',
+      clientFirstName: '',
+      clientSurname: '',
+      cost: '',
+      isFullyDamaged: ''
+    });
+  }
   loadCars(): void {
     this.carsService.getCars().subscribe((cars) => {
       this.cars = cars;
