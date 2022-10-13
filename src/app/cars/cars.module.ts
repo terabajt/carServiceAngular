@@ -5,6 +5,7 @@ import { TotalCostComponent } from './total-cost/total-cost.component';
 import { SharedModule } from '../shared-module/shared.module';
 import { CarDetailsComponent } from './car-details/car-details.component';
 import { RouterModule } from '@angular/router';
+import { CarResolve } from './car-resolve.services';
 
 
 
@@ -13,6 +14,9 @@ import { RouterModule } from '@angular/router';
     CarsListComponent,
     TotalCostComponent,
     CarDetailsComponent
+  ],
+  providers: [
+    CarResolve
   ],
   imports: [
     CommonModule,

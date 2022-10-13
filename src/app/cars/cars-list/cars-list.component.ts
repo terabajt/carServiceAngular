@@ -1,5 +1,6 @@
 import { ViewChild, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CarsService } from '../cars.service';
 import { Car } from '../models/car';
 import { TotalCostComponent } from '../total-cost/total-cost.component';
@@ -17,7 +18,8 @@ export class CarsListComponent implements OnInit, AfterViewInit {
   grossCost: number | undefined;
   cars: Car[] = [];
 
-  constructor(private carsService: CarsService) {}
+  constructor(private carsService: CarsService,
+    private router: Router) {}
 
   ngOnInit(): void {
     this.loadCars();
@@ -38,7 +40,10 @@ export class CarsListComponent implements OnInit, AfterViewInit {
   showGross(): void {
     this.totalCostRef.showGross();
   }
-
+  
+  goToCarDetail( car: Car) {
+    this.router.navigate(['/cars', car.id]);
+  }
   countTotalCost(): void {
     this.totalCost = this.cars
       .map((car) => car.cost) // 300, 400, 600
