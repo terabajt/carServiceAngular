@@ -1,6 +1,6 @@
 import { ViewChild, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CarsService } from '../cars.service';
 import { Car } from '../models/car';
@@ -16,9 +16,9 @@ export class CarsListComponent implements OnInit, AfterViewInit {
   @ViewChild('totalCostRef')
   totalCostRef!: TotalCostComponent;
   totalCost!: number;
-  grossCost: number | undefined;
+  grossCost: number | any;
   cars: Car[] = [];
-  carForm : FormGroup | undefined;
+  carForm : FormGroup | any;
 
   constructor(private carsService: CarsService,
     private router: Router,
@@ -31,9 +31,9 @@ export class CarsListComponent implements OnInit, AfterViewInit {
 
   buildCarForm () {
     return this.formBuilder.group({
-      model: '',
+      model: ['', Validators.required],
       type: '',
-      plate: '',
+      plate: ['', [Validators.minLength(3), Validators.required, Validators.maxLength(7)]],
       deliveryDate: '',
       deadline: '',
       color: '',
@@ -41,7 +41,8 @@ export class CarsListComponent implements OnInit, AfterViewInit {
       clientFirstName: '',
       clientSurname: '',
       cost: '',
-      isFullyDamaged: ''
+      isFullyDamaged: '',
+      year: ''
     });
   }
   loadCars(): void {
@@ -51,7 +52,11 @@ export class CarsListComponent implements OnInit, AfterViewInit {
 
     });
   }
-
+addCar () {
+  this.carsService.addCar(this.carForm.value).subscribe(() => {
+    this.loadCars();
+  })
+}
   ngAfterViewInit() {
     this.totalCostRef.showGross();
   }
