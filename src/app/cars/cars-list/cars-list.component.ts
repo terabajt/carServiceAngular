@@ -61,6 +61,13 @@ addCar () {
     this.totalCostRef.showGross();
   }
 
+  removeCar(car : Car, event: { stopPropagation: () => void; }) {
+    event.stopPropagation();
+    this.carsService.removeCar(car.id).subscribe(() => {
+      this.loadCars();
+    })
+  }
+
   showGross(): void {
     this.totalCostRef.showGross();
   }
