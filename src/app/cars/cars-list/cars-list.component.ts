@@ -1,8 +1,10 @@
-import { ViewChild, ViewEncapsulation, AfterViewInit } from '@angular/core';
+import { ViewChild, ViewEncapsulation, AfterViewInit, ViewChildren, QueryList } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CarTableRowComponent } from '../car-table-row/car-table-row.component';
 import { CarsService } from '../cars.service';
+import { CostSharedService } from '../cost-shared.service';
 import { Car } from '../models/car';
 import { TotalCostComponent } from '../total-cost/total-cost.component';
 
@@ -15,6 +17,8 @@ import { TotalCostComponent } from '../total-cost/total-cost.component';
 export class CarsListComponent implements OnInit, AfterViewInit {
   @ViewChild('totalCostRef')
   totalCostRef!: TotalCostComponent;
+  @ViewChildren(CarTableRowComponent)
+  carRows!: QueryList<CarTableRowComponent>;
   totalCost!: number;
   grossCost: number | any;
   cars: Car[] = [];
@@ -22,12 +26,14 @@ export class CarsListComponent implements OnInit, AfterViewInit {
 
   constructor(private carsService: CarsService,
     private router: Router,
-    private formBuilder: FormBuilder) {}
+    private formBuilder: FormBuilder,
+    private costSharedService: CostSharedService ) {}
 
   ngOnInit(): void {
     this.loadCars();
     this.carForm = this.buildCarForm();
   }
+
 
   buildCarForm () {
     return this.formBuilder.group({
@@ -49,6 +55,7 @@ export class CarsListComponent implements OnInit, AfterViewInit {
     this.carsService.getCars().subscribe((cars) => {
       this.cars = cars;
       this.countTotalCost();
+      this.costSharedService.shareCost(this.totalCost);
 
     });
   }
@@ -59,10 +66,14 @@ addCar () {
 }
   ngAfterViewInit() {
     this.totalCostRef.showGross();
+    this.carRows.changes.subscribe(() => {
+      if (this.carRows.first.car.clientSurname === 'Kowalski') {
+        console.log('Warning, Client Kowalski is next queue!');
+      }
+    })
   }
 
-  removeCar(car : Car, event: { stopPropagation: () => void; }) {
-    event.stopPropagation();
+  onRemovedCar(car : Car) { 
     this.carsService.removeCar(car.id).subscribe(() => {
       this.loadCars();
     })

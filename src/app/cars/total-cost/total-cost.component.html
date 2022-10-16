@@ -2,7 +2,12 @@
     <div class="col-sm-12 total-cost">
         <div class="total-cost">
            
-            <p class="text-end">TOTAL COST: {{ totalCost }} PLN</p>
+            <p class="text-end">
+                <span *ngIf="isCostTooLow" class="cost-warning">
+                    WARNING! COST IS LOWER THAN {{ costThreshold }}!
+                </span>
+                TOTAL COST: {{ totalCost }} PLN</p>
+                <cs-income-tax></cs-income-tax>
         </div>
     </div>
 </div>
