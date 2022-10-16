@@ -84,7 +84,8 @@
         <div class="row form-group">
             <div class="col-sm-4">
                 <label>Power</label>
-                <input  formControlName="power" type="text" class="form-control" placeholder="Power">
+                <input  formControlName="power" type="number" class="form-control" placeholder="Power">
+                <p *ngIf="carForm?.get('power').errors?.power && carForm?.get('power').dirty" class="error">Power must be between 50 and 800</p>
             </div>
             <div class="col-sm-4">
                 <label>Cost</label>
@@ -92,7 +93,7 @@
             </div>
             <div class="col-sm-4">
                 <label>Is car fullt damaged?</label>
-                <input  formControlName="isFullyDamaged" type="checkbox">
+                <input  formControlName="isFullyDamaged" type="checkbox" (change)="togglePlateValidity()">
             </div>
         </div>
         <div class="row form-group">
@@ -110,13 +111,30 @@
             </div>
          
         </div>
+
+        <div formGroupName="parts" class="row form-group part-group">
+            <div class="col-sm-4">
+                <label>Part Name</label>
+                <input  formControlName="name" type="text" class="form-control" placeholder="Name">
+            </div>
+            <div class="col-sm-4">
+                <label>Is part In Stock?</label>
+                <input  formControlName="inStock" type="checkbox">
+            </div>
+            <div class="col-sm-4">
+                <label>Price</label>
+                <input  formControlName="price" type="text" class="form-control" placeholder="Price">
+            </div>
+         
+        </div>
         <div class="row">
             <div class="col-sm-12">
                 <button [disabled]="carForm.invalid" (click)="addCar()" type="submit" class="btn btn-primary float-end">Add car</button>
-                <button (click)="carForm.reset()" type="submit" class="btn btn-default float-end">Reset</button>
+                <button (click)="carForm.reset()" type="submit" class="btn btn-warning float-end">Reset</button>
             </div>
         </div>
     </form>
+    <pre>{{ carForm.value | json }}</pre>
     <!-- <pre> {{ carForm?.value | json }} </pre>
     <pre> Stan waliacji inputa model: {{ carForm?.get('model').valid | json }} </pre>
     <pre> Stan waliacji inputa plate: {{ carForm?.get('plate').valid | json }} </pre> -->

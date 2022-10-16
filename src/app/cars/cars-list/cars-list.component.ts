@@ -2,6 +2,7 @@ import { ViewChild, ViewEncapsulation, AfterViewInit, ViewChildren, QueryList } 
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CsValidators } from 'src/app/shared-module/validators/cs-validators';
 import { CarTableRowComponent } from '../car-table-row/car-table-row.component';
 import { CarsService } from '../cars.service';
 import { CostSharedService } from '../cost-shared.service';
@@ -43,13 +44,31 @@ export class CarsListComponent implements OnInit, AfterViewInit {
       deliveryDate: '',
       deadline: '',
       color: '',
-      power: '',
+      power: ['', CsValidators.power],
       clientFirstName: '',
       clientSurname: '',
       cost: '',
       isFullyDamaged: '',
-      year: ''
+      year: '',
+      parts: this.formBuilder.group({
+        name: '',
+        inStock: '',
+        price: ''
+      })
     });
+  }
+
+  togglePlateValidity() {
+    const damageControl = this.carForm.get('isFullyDamaged');
+    const plateControl = this.carForm.get('plate');
+    if (damageControl.value) {
+      plateControl.clearValidators();
+    } else {
+      plateControl.setValidators([Validators.minLength(3), Validators.required, Validators.maxLength(7)]);
+    }
+
+    plateControl.updateValueAndValidity();
+
   }
   loadCars(): void {
     this.carsService.getCars().subscribe((cars) => {
@@ -60,7 +79,9 @@ export class CarsListComponent implements OnInit, AfterViewInit {
     });
   }
 addCar () {
-  this.carsService.addCar(this.carForm.value).subscribe(() => {
+  const carFormData = Object.assign({}, this.carForm.value);
+  carFormData.parts = [carFormData.parts];
+  this.carsService.addCar(carFormData).subscribe(() => {
     this.loadCars();
   })
 }
