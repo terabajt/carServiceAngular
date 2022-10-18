@@ -90,9 +90,10 @@
                     be between 50 and 800</p>
             </div>
             <div class="col-sm-4">
-                <label>Cost</label>
-                <input formControlName="cost" type="text" class="form-control" placeholder="Cost">
+                <label>Year</label>
+                <input formControlName="year" type="text" class="form-control" placeholder="Year">
             </div>
+         
             <div class="col-sm-4">
                 <label>Is car fullt damaged?</label>
                 <input formControlName="isFullyDamaged" type="checkbox" (change)="togglePlateValidity()">
@@ -108,10 +109,7 @@
                 <label>Client Last Name</label>
                 <input formControlName="clientSurname" type="text" class="form-control" placeholder="Client Last Name">
             </div>
-            <div class="col-sm-4">
-                <label>Year</label>
-                <input formControlName="year" type="text" class="form-control" placeholder="Year">
-            </div>
+         
 
         </div>
 
@@ -130,14 +128,15 @@
                         <label>Part Name</label>
                         <input formControlName="name" type="text" class="form-control" placeholder="Name">
                     </div>
+                     <div class="col-sm-4">
+                        <label>Price</label>
+                        <input formControlName="price" type="text" class="form-control" placeholder="Price">
+                    </div>
                     <div class="col-sm-4">
                         <label>Is part In Stock?</label>
                         <input formControlName="inStock" type="checkbox">
                     </div>
-                    <div class="col-sm-4">
-                        <label>Price</label>
-                        <input formControlName="price" type="text" class="form-control" placeholder="Price">
-                    </div>
+                   
                 </div>
             </div>
         </div>

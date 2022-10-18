@@ -47,7 +47,6 @@ export class CarsListComponent implements OnInit, AfterViewInit {
       power: ['', CsValidators.power],
       clientFirstName: '',
       clientSurname: '',
-      cost: '',
       isFullyDamaged: '',
       year: '',
       parts: this.formBuilder.array([])
@@ -95,9 +94,17 @@ export class CarsListComponent implements OnInit, AfterViewInit {
     });
   }
 addCar () {
-    this.carsService.addCar(this.carForm.value).subscribe(() => {
+  let carFormData = Object.assign({}, this.carForm.value);
+  carFormData.cost = this.getPartsCost(carFormData.parts);
+    this.carsService.addCar(carFormData).subscribe(() => {
     this.loadCars();
   })
+}
+
+getPartsCost(parts: any[]) {
+  return parts.reduce((prev, nextPart) => {
+    return parseFloat(prev) + parseFloat(nextPart.price);
+  }, 0)
 }
   ngAfterViewInit() {
     this.totalCostRef.showGross();
