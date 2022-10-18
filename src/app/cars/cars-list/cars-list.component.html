@@ -21,8 +21,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let car of cars; let i = index" class="row-car" (click)="goToCarDetail(car)"
-                    cs-car-table-row [car]="car" (removedCar)="onRemovedCar(car)"
-                    >
+                        cs-car-table-row [car]="car" (removedCar)="onRemovedCar(car)">
                     </tr>
 
                 </tbody>
@@ -54,8 +53,9 @@
         <div class="row form-group">
             <div class="col-sm-4">
                 <label>Model</label>
-                <input  formControlName="model" type="text" class="form-control" placeholder="model">
-                <p *ngIf="!carForm?.get('model').valid && carForm?.get('model').dirty" class="error">This field is required!</p>
+                <input formControlName="model" type="text" class="form-control" placeholder="model">
+                <p *ngIf="!carForm?.get('model').valid && carForm?.get('model').dirty" class="error">This field is
+                    required!</p>
             </div>
             <div class="col-sm-4">
                 <label>Type</label>
@@ -64,72 +64,89 @@
             <div class="col-sm-4">
                 <label>Plate</label>
                 <input formControlName="plate" type="text" class="form-control" placeholder="Plate">
-                <p *ngIf="!carForm?.get('plate').valid && carForm?.get('plate').dirty" class="error">This field is required and must contain 3-7 characters!</p>
+                <p *ngIf="!carForm?.get('plate').valid && carForm?.get('plate').dirty" class="error">This field is
+                    required and must contain 3-7 characters!</p>
             </div>
         </div>
         <div class="row form-group">
             <div class="col-sm-4">
                 <label>Deliery date</label>
-                <input  formControlName="deliveryDate" type="text" class="form-control" placeholder="Deliery date">
+                <input formControlName="deliveryDate" type="text" class="form-control" placeholder="Deliery date">
             </div>
             <div class="col-sm-4">
                 <label>Deadline</label>
-                <input  formControlName="deadline" type="text" class="form-control" placeholder="Deadline">
+                <input formControlName="deadline" type="text" class="form-control" placeholder="Deadline">
             </div>
             <div class="col-sm-4">
                 <label>Color</label>
-                <input  formControlName="color" type="text" class="form-control" placeholder="Color">
+                <input formControlName="color" type="text" class="form-control" placeholder="Color">
             </div>
         </div>
         <div class="row form-group">
             <div class="col-sm-4">
                 <label>Power</label>
-                <input  formControlName="power" type="number" class="form-control" placeholder="Power">
-                <p *ngIf="carForm?.get('power').errors?.power && carForm?.get('power').dirty" class="error">Power must be between 50 and 800</p>
+                <input formControlName="power" type="number" class="form-control" placeholder="Power">
+                <p *ngIf="carForm?.get('power').errors?.power && carForm?.get('power').dirty" class="error">Power must
+                    be between 50 and 800</p>
             </div>
             <div class="col-sm-4">
                 <label>Cost</label>
-                <input  formControlName="cost" type="text" class="form-control" placeholder="Cost">
+                <input formControlName="cost" type="text" class="form-control" placeholder="Cost">
             </div>
             <div class="col-sm-4">
                 <label>Is car fullt damaged?</label>
-                <input  formControlName="isFullyDamaged" type="checkbox" (change)="togglePlateValidity()">
+                <input formControlName="isFullyDamaged" type="checkbox" (change)="togglePlateValidity()">
             </div>
         </div>
         <div class="row form-group">
             <div class="col-sm-4">
                 <label>Client First Name</label>
-                <input  formControlName="clientFirstName" type="text" class="form-control" placeholder="Client First Name">
+                <input formControlName="clientFirstName" type="text" class="form-control"
+                    placeholder="Client First Name">
             </div>
             <div class="col-sm-4">
                 <label>Client Last Name</label>
-                <input  formControlName="clientSurname" type="text" class="form-control" placeholder="Client Last Name">
+                <input formControlName="clientSurname" type="text" class="form-control" placeholder="Client Last Name">
             </div>
             <div class="col-sm-4">
                 <label>Year</label>
-                <input  formControlName="year" type="text" class="form-control" placeholder="Year">
+                <input formControlName="year" type="text" class="form-control" placeholder="Year">
             </div>
-         
+
         </div>
 
-        <div formGroupName="parts" class="row form-group part-group">
-            <div class="col-sm-4">
-                <label>Part Name</label>
-                <input  formControlName="name" type="text" class="form-control" placeholder="Name">
+        <div formArrayName="parts" *ngFor="let part of parts.controls; let i = index">
+            <div [formGroupName]="i" class="part-group">
+
+                <div class="row">
+                    <div class="col-12">
+                        <h5>{{ i + 1 }} ) {{ part.value.name }} {{ part.value.price | currency:'PLN':'symbol' }}
+                            <span (click)="removePart(i)" class="btn btn-danger float-end"> ( X )</span>
+                        </h5>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-4">
+                        <label>Part Name</label>
+                        <input formControlName="name" type="text" class="form-control" placeholder="Name">
+                    </div>
+                    <div class="col-sm-4">
+                        <label>Is part In Stock?</label>
+                        <input formControlName="inStock" type="checkbox">
+                    </div>
+                    <div class="col-sm-4">
+                        <label>Price</label>
+                        <input formControlName="price" type="text" class="form-control" placeholder="Price">
+                    </div>
+                </div>
             </div>
-            <div class="col-sm-4">
-                <label>Is part In Stock?</label>
-                <input  formControlName="inStock" type="checkbox">
-            </div>
-            <div class="col-sm-4">
-                <label>Price</label>
-                <input  formControlName="price" type="text" class="form-control" placeholder="Price">
-            </div>
-         
         </div>
+        <button class="btn btn-primary" (click)="addPart()">Add part</button>
         <div class="row">
             <div class="col-sm-12">
-                <button [disabled]="carForm.invalid" (click)="addCar()" type="submit" class="btn btn-primary float-end">Add car</button>
+                <button [disabled]="carForm.invalid" (click)="addCar()" type="submit"
+                    class="btn btn-primary float-end">Add
+                    car</button>
                 <button (click)="carForm.reset()" type="submit" class="btn btn-warning float-end">Reset</button>
             </div>
         </div>

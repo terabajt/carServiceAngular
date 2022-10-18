@@ -1,6 +1,6 @@
 import { ViewChild, ViewEncapsulation, AfterViewInit, ViewChildren, QueryList } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CsValidators } from 'src/app/shared-module/validators/cs-validators';
 import { CarTableRowComponent } from '../car-table-row/car-table-row.component';
@@ -50,12 +50,28 @@ export class CarsListComponent implements OnInit, AfterViewInit {
       cost: '',
       isFullyDamaged: '',
       year: '',
-      parts: this.formBuilder.group({
-        name: '',
-        inStock: '',
-        price: ''
-      })
+      parts: this.formBuilder.array([])
     });
+  }
+
+  buildParts() : FormGroup {
+    return this.formBuilder.group({
+      name: '',
+      inStock: true,
+      price: ''
+    });
+  }
+  get parts() : FormArray {
+    return <FormArray>this.carForm.get('parts');
+  }
+
+  addPart() : void {
+    this.parts.push(this.buildParts())
+  }
+
+  removePart(i: number) : void {
+    this.parts.removeAt(i);
+
   }
 
   togglePlateValidity() {
@@ -79,9 +95,7 @@ export class CarsListComponent implements OnInit, AfterViewInit {
     });
   }
 addCar () {
-  const carFormData = Object.assign({}, this.carForm.value);
-  carFormData.parts = [carFormData.parts];
-  this.carsService.addCar(carFormData).subscribe(() => {
+    this.carsService.addCar(this.carForm.value).subscribe(() => {
     this.loadCars();
   })
 }
