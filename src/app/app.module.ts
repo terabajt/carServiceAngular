@@ -8,10 +8,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { LoginRoutingModule } from './login/login-routing.module';
 import { LoginModule } from './login/login.module';
 import { AuthService } from './auth/auth.service';
+import { AuthGuard } from './auth/auth.guard';
+import { LayoutService } from './shared-module/services/layout.service';
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, CarsModule, HttpClientModule, CoreModule, AppRoutingModule, CarsRoutingModule, LoginRoutingModule, LoginModule],
-  providers: [CarsService, AuthService],
+  imports: [BrowserModule, HttpClientModule, CoreModule, AppRoutingModule, LoginModule],
+  providers: [CarsService, AuthService, AuthGuard, LayoutService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
