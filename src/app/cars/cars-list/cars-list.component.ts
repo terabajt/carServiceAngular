@@ -4,6 +4,8 @@ import {
   AfterViewInit,
   ViewChildren,
   QueryList,
+  ElementRef,
+  Renderer2,
 } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -28,6 +30,8 @@ export class CarsListComponent
 {
   @ViewChild('totalCostRef')
   totalCostRef!: TotalCostComponent;
+  @ViewChild('addCarTitle')
+  addCarTitle!: ElementRef;
   @ViewChildren(CarTableRowComponent)
   carRows!: QueryList<CarTableRowComponent>;
   totalCost!: number;
@@ -39,7 +43,8 @@ export class CarsListComponent
     private carsService: CarsService,
     private router: Router,
     private formBuilder: FormBuilder,
-    private costSharedService: CostSharedService
+    private costSharedService: CostSharedService,
+    private renderer: Renderer2
   ) {}
 
   ngOnInit(): void {
@@ -122,6 +127,16 @@ export class CarsListComponent
     }, 0);
   }
   ngAfterViewInit() {
+    const addCarTitle = this.addCarTitle?.nativeElement;
+    this.renderer.setStyle(addCarTitle, 'fontSize', '20px');
+
+    this.carForm.valueChanges.subscribe(() => {
+      if (this.carForm.invalid) {
+        this.renderer.setStyle(addCarTitle, 'color', 'red');
+      } else {
+        this.renderer.setStyle(addCarTitle, 'color', 'white');
+      }
+    });
     this.totalCostRef.showGross();
     this.carRows.changes.subscribe(() => {
       if (this.carRows.first.car.clientSurname === 'Kowalski') {
