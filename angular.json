@@ -15,12 +15,13 @@
       "prefix": "cs",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/cars-service",
+            "outputPath": {
+              "base": "dist/cars-service"
+            },
             "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": ["src/polyfills.ts"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "less",
             "assets": ["src/favicon.ico", "src/assets"],
@@ -28,7 +29,8 @@
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "src/styles.less"
             ],
-            "scripts": []
+            "scripts": [],
+            "browser": "src/main.ts"
           },
           "configurations": {
             "production": {
@@ -53,9 +55,7 @@
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
@@ -67,10 +67,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "cars-service:build:production"
+              "buildTarget": "cars-service:build:production"
             },
             "development": {
-              "browserTarget": "cars-service:build:development"
+              "buildTarget": "cars-service:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -78,25 +78,14 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "cars-service:build"
+            "buildTarget": "cars-service:build"
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "inlineStyleLanguage": "less",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.less"],
-            "scripts": []
-          }
+          "builder": "@angular-devkit/build-angular:web-test-runner"
         }
       }
     }
-  
   },
   "cli": {
     "analytics": false
