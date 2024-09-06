@@ -26,8 +26,8 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^16.2.15",
-    "@angular/cli": "~16.2.15",
+    "@angular-devkit/build-angular": "^17.3.9",
+    "@angular/cli": "~17.3.9",
     "@angular/compiler-cli": "^18.2.3",
     "@vitest/ui": "^2.0.5",
     "jsdom": "^25.0.0",
