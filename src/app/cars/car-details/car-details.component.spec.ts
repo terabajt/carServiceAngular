@@ -1,8 +1,6 @@
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
-import { beforeEach, describe, expect, it } from 'vitest';
-import {} from '../../../setupTests';
 import { CarsService } from '../cars.service';
 import { CarDetailsComponent } from './car-details.component';
 
@@ -14,7 +12,7 @@ describe('CarDetailsComponent', () => {
 
   beforeEach(() => {
     carsService = {
-      updateCar: vi.fn().mockReturnValue(of({})),
+      updateCar: jest.fn().mockReturnValue(of({})),
     } as any;
 
     route = {
@@ -43,7 +41,7 @@ describe('CarDetailsComponent', () => {
     } as any;
 
     router = {
-      navigate: vi.fn(),
+      navigate: jest.fn(),
     } as any;
 
     component = new CarDetailsComponent(
